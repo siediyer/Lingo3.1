@@ -15,9 +15,6 @@ SUB_VIDEO = "output/output_sub.mp4"
 DUB_VIDEO = "output/output_dub.mp4"
 
 
-# ─── Task control UI (auto-refreshes every 1s while task is active) ───
-
-
 @st.fragment(run_every=1)
 def _task_control_panel(runner_key: str):
     """Renders progress bar + pause/stop buttons. Auto-refreshes every 1s."""
@@ -26,7 +23,6 @@ def _task_control_panel(runner_key: str):
     if runner.state == "idle":
         return
 
-    # Progress
     step_text = (
         f"({runner.current_step + 1}/{runner.total_steps}) {runner.current_label}"
         if runner.current_step >= 0
@@ -40,7 +36,6 @@ def _task_control_panel(runner_key: str):
             st.info(f"⏳ {t('Running...')} {step_text}")
         st.progress(runner.progress)
 
-        # Control buttons
         col1, col2 = st.columns(2)
         with col1:
             if runner.state == "paused":
@@ -89,11 +84,7 @@ def _task_control_panel(runner_key: str):
             st.rerun(scope="app")
 
 
-# ─── Text processing ───
-
-
 def _get_text_steps():
-    """Return the subtitle processing steps as (label, callable) list."""
     steps = [
         (t("WhisperX word-level transcription"), _2_asr.transcribe),
         (
@@ -155,7 +146,7 @@ def text_processing_section():
                     runner.start(steps)
                     st.rerun()
         else:
-            if load_key("burn_subtitles"):
+            if os.path.exists(SUB_VIDEO):
                 st.video(SUB_VIDEO)
             download_subtitle_zip_button(text=t("Download All Srt Files"))
 
@@ -165,11 +156,7 @@ def text_processing_section():
             return True
 
 
-# ─── Audio processing ───
-
-
 def _get_audio_steps():
-    """Return the audio/dubbing processing steps as (label, callable) list."""
     steps = [
         (
             t("Generate audio tasks and chunks"),
@@ -222,7 +209,7 @@ def audio_processing_section():
                     "Audio processing is complete! You can check the audio files in the `output` folder."
                 )
             )
-            if load_key("burn_subtitles"):
+            if os.path.exists(DUB_VIDEO):
                 st.video(DUB_VIDEO)
             if st.button(t("Delete dubbing files"), key="delete_dubbing_files"):
                 delete_dubbing_files()
@@ -230,9 +217,6 @@ def audio_processing_section():
             if st.button(t("Archive to 'history'"), key="cleanup_in_audio_processing"):
                 cleanup()
                 st.rerun()
-
-
-# ─── Main ───
 
 
 def main():
@@ -247,7 +231,6 @@ def main():
         f"<p style='font-size: 20px; color: #808080;'>{welcome_text}</p>",
         unsafe_allow_html=True,
     )
-    # add settings
     with st.sidebar:
         page_setting()
         st.markdown(give_star_button, unsafe_allow_html=True)
