@@ -46,7 +46,13 @@ def check_hf_mirror():
         else:
             cmd = ['ping', '-c', '1', '-W', '3', domain]
         start = time.time()
-        result = subprocess.run(cmd, capture_output=True, text=True)
+        result = subprocess.run(
+            cmd,
+            capture_output=True,
+            text=True,
+            encoding="gb18030",
+            errors="replace"
+        )
         response_time = time.time() - start
         if result.returncode == 0:
             if response_time < best_time:
