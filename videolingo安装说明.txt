@@ -6,18 +6,21 @@ python -c "import torch; print(torch.__version__); print('cuda:', torch.cuda.is_
 python -c "import torch; print(torch.version.cuda)"
 nvidia-smi
 
+chcp 65001
+set PYTHONUTF8=1
+setx PYTHONUTF8 1
 
-
-
-pip uninstall -y torch torchaudio torchvision
-
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
 
 python -c "import torch; print(torch.__version__); print('cuda:', torch.cuda.is_available()); print('count:', torch.cuda.device_count()); print(torch.version.cuda)"
 
 
+cd /d C:\videolingo
+deactivate 2>nul
+rmdir /s /q .venv
+python -m venv .venv
+.venv\Scripts\activate
+python -m pip install --upgrade pip
+python -m pip install -U pip setuptools wheel
+python -m pip install -r requirements.txt
+python install.py
 python -m streamlit run st.py
-
-
-
-git config --global --add safe.directory 'D:/AI/VideoLingo3.1'
