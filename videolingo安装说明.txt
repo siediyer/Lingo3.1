@@ -1,0 +1,23 @@
+
+.venv\Scripts\activate
+streamlit run st.py
+
+python -c "import torch; print(torch.__version__); print('cuda:', torch.cuda.is_available()); print('count:', torch.cuda.device_count())"
+python -c "import torch; print(torch.version.cuda)"
+nvidia-smi
+
+
+
+
+pip uninstall -y torch torchaudio torchvision
+
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+
+python -c "import torch; print(torch.__version__); print('cuda:', torch.cuda.is_available()); print('count:', torch.cuda.device_count()); print(torch.version.cuda)"
+
+
+python -m streamlit run st.py
+
+
+
+git config --global --add safe.directory 'D:/AI/VideoLingo3.1'
