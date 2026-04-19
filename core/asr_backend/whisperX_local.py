@@ -79,15 +79,9 @@ def _resolve_device_and_params():
 
     if device == "cuda":
         gpu_mem = torch.cuda.get_device_properties(0).total_memory / (1024 ** 3)
-        # Aggressive defaults for large VRAM cards, safer values for smaller cards.
-        if gpu_mem >= 24:
-            batch_size = 48
-        elif gpu_mem >= 12:
-            batch_size = 32
-        elif gpu_mem >= 8:
-            batch_size = 16
-        else:
-            batch_size = 8
+        
+        # ✅ 强制稳定模式（防炸内存）
+        batch_size = 4
 
         compute_type = "float16"
         rprint(
