@@ -11,6 +11,7 @@ Get-DnsClientServerAddress
 Test-NetConnection registry.ollama.ai -Port 443
 
 cd C:\videolingo3.1
+cd D:\AI\VideoLingo3.1
 deactivate 2>nul
 rmdir /s /q .venv
 python -m venv .venv
