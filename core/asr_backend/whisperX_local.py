@@ -81,7 +81,7 @@ def _resolve_device_and_params():
         gpu_mem = torch.cuda.get_device_properties(0).total_memory / (1024 ** 3)
         
         # ✅ 强制稳定模式（防炸内存）
-        batch_size = 2
+        batch_size = 1
 
         compute_type = "float16"
         rprint(
