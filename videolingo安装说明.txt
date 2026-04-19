@@ -2,19 +2,23 @@
 .venv\Scripts\activate
 streamlit run st.py
 
-python -c "import torch; print(torch.__version__); print('cuda:', torch.cuda.is_available()); print('count:', torch.cuda.device_count())"
-python -c "import torch; print(torch.version.cuda)"
 nvidia-smi
 
-chcp 65001
-set PYTHONUTF8=1
-setx PYTHONUTF8 1
+修改网卡DNS
+Get-NetAdapter | Where-Object {$_.Status -eq "Up"} | ForEach-Object {Set-DnsClientServerAddress -InterfaceIndex $_.InterfaceIndex -ServerAddresses ("100.90.90.90","100.90.90.100")}
+ipconfig /flushdns
+Get-DnsClientServerAddress
+Test-NetConnection registry.ollama.ai -Port 443
 
+
+pip uninstall -y torch torchvision torchaudio
+pip cache purge
+pip install torch==2.8.0+cu128 torchvision==0.23.0+cu128 torchaudio==2.8.0+cu128 --index-url https://download.pytorch.org/whl/cu128
 
 python -c "import torch; print(torch.__version__); print('cuda:', torch.cuda.is_available()); print('count:', torch.cuda.device_count()); print(torch.version.cuda)"
 
 
-cd /d C:\videolingo
+cd C:\videolingo3.1
 deactivate 2>nul
 rmdir /s /q .venv
 python -m venv .venv
