@@ -10,14 +10,6 @@ ipconfig /flushdns
 Get-DnsClientServerAddress
 Test-NetConnection registry.ollama.ai -Port 443
 
-
-pip uninstall -y torch torchvision torchaudio
-pip cache purge
-pip install torch==2.8.0+cu128 torchvision==0.23.0+cu128 torchaudio==2.8.0+cu128 --index-url https://download.pytorch.org/whl/cu128
-
-python -c "import torch; print(torch.__version__); print('cuda:', torch.cuda.is_available()); print('count:', torch.cuda.device_count()); print(torch.version.cuda)"
-
-
 cd C:\videolingo3.1
 deactivate 2>nul
 rmdir /s /q .venv
@@ -26,6 +18,13 @@ python -m venv .venv
 python -m pip install --upgrade pip
 python -m pip install -U pip setuptools wheel
 python -m pip install -r requirements.txt
+
+pip uninstall -y torch torchvision torchaudio
+pip cache purge
+pip install torch==2.8.0+cu128 torchvision==0.23.0+cu128 torchaudio==2.8.0+cu128 --index-url https://download.pytorch.org/whl/cu128
+
+python -c "import torch; print(torch.__version__); print('cuda:', torch.cuda.is_available()); print('count:', torch.cuda.device_count()); print(torch.version.cuda)"
+
 python install.py
 python -m streamlit run st.py
 
